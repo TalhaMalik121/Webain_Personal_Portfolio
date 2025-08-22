@@ -1,0 +1,30 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  @apply bg-deepNavy text-white;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+/* Smooth scroll behavior for anchor navigation */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Pulsating glow used on the CTA button */
+@keyframes pulse-shadow {
+  0% { box-shadow: 0 0 10px #6D28D9; opacity: .7; }
+  50% { box-shadow: 0 0 20px #6D28D9; opacity: 1; }
+  100% { box-shadow: 0 0 10px #6D28D9; opacity: .7; }
+}
+.glow-effect { animation: pulse-shadow 2s infinite ease-in-out alternate; }
