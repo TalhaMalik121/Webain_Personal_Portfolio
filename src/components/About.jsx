@@ -25,7 +25,7 @@ export default function About() {
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0, transition: { duration: 0.6 } }}
             //src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=600&auto=format&fit=crop"
-            src="Img2.jpg"
+            src="/Img2.jpg"
             alt="About placeholder"
             className="rounded-2xl object-cover w-full h-64 md:h-72 ring-4"
             style={{ ringColor: mustard }}

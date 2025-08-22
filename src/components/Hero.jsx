@@ -65,7 +65,7 @@ export default function Hero() {
           className="flex justify-center md:justify-end"
         >
           <img
-            src="Img1.jpg"
+            src="/Img1.jpg"
             alt="Your portrait placeholder"
             className="w-48 h-48 md:w-60 md:h-60 rounded-full object-cover ring-4"
             style={{ ringColor: mustard }}
