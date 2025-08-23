@@ -7,7 +7,6 @@ const allSkills = [
   { name: "Python", icon: "/icons/python.svg", category: "Programming" },
   { name: "C++", icon: "/icons/c++.svg", category: "Programming" },
   { name: "Java", icon: "/icons/java.svg", category: "Programming" },
-
   { name: "HTML", icon: "/icons/html.svg", category: "Web" },
   { name: "CSS", icon: "/icons/css.svg", category: "Web" },
   { name: "TailwindCSS", icon: "/icons/tailwind.svg", category: "Web" },
@@ -15,15 +14,14 @@ const allSkills = [
   { name: "JavaScript", icon: "/icons/js.svg", category: "Web" },
   { name: "React", icon: "/icons/react.svg", category: "Web" },
   { name: "Django", icon: "/icons/django.svg", category: "Web" },
-
   { name: "Figma", icon: "/icons/figma.svg", category: "Design" },
-
   { name: "NumPy", icon: "/icons/numpy.svg", category: "AI" },
   { name: "Pandas", icon: "/icons/pandas.svg", category: "AI" },
+  { name: "Matplotlib", icon: "/icons/matplotlib.svg", category: "AI" },
+  { name: "Seaborn", icon: "/icons/seaborn.svg", category: "AI" },
   { name: "Scikit-learn", icon: "/icons/scikit-learn.svg", category: "AI" },
   { name: "TensorFlow", icon: "/icons/tensorflow.svg", category: "AI" },
   { name: "Keras", icon: "/icons/Keras.svg", category: "AI" },
-
   {
     name: "NLTK",
     icon: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64'><circle cx='32' cy='32' r='30' fill='%231f77b4'/><text x='32' y='40' font-size='18' text-anchor='middle' fill='white' font-family='Arial'>NLTK</text></svg>",
