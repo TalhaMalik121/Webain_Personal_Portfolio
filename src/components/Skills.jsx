@@ -24,7 +24,6 @@ const allSkills = [
   { name: "TensorFlow", icon: "/icons/tensorflow.svg", category: "AI" },
   { name: "Keras", icon: "/icons/Keras.svg", category: "AI" },
 
-  // Placeholder SVGs for NLTK and BeautifulSoup
   {
     name: "NLTK",
     icon: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64'><circle cx='32' cy='32' r='30' fill='%231f77b4'/><text x='32' y='40' font-size='18' text-anchor='middle' fill='white' font-family='Arial'>NLTK</text></svg>",
@@ -40,7 +39,11 @@ const allSkills = [
   { name: "GitHub", icon: "/icons/github.svg", category: "Tools" },
 ];
 
-
+// Scroll-in animation variants
+const cardVariants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+};
 
 export default function Skills() {
   const [filter, setFilter] = useState("All");
@@ -82,12 +85,27 @@ export default function Skills() {
           ))}
         </div>
 
-        <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+        <motion.div 
+          className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6"
+          initial="hidden"
+          animate="visible"
+          variants={{
+            visible: { 
+              transition: { staggerChildren: 0.1 } // stagger effect for smooth animation
+            }
+          }}
+        >
           {skills.map((s, i) => (
             <motion.div
               key={i}
+              variants={cardVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: false, amount: 0.3 }}
               whileHover={{ scale: 1.08, boxShadow: "0 0 20px rgba(240,165,0,0.6)" }}
-              className="p-6 rounded-2xl bg-black/40 flex flex-col items-center justify-center gap-3 text-center"
+              whileTap={{ scale: 1.08, boxShadow: "0 0 20px rgba(240,165,0,0.6)" }}
+              animate={{ y: ["0%", "-3%", "0%"], transition: { repeat: Infinity, duration: 2, ease: "easeInOut" } }} // floating animation
+              className="p-6 rounded-2xl bg-black/40 flex flex-col items-center justify-center gap-3 text-center cursor-pointer"
             >
               <div className="text-yellow-400 text-4xl">
                 <img src={s.icon} alt={s.name} className="w-12 h-12" />
@@ -95,7 +113,7 @@ export default function Skills() {
               <p className="font-medium">{s.name}</p>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </motion.div>
     </section>
   );
