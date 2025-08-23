@@ -1,29 +1,46 @@
-
 import { motion } from "framer-motion";
 import { useMemo, useState } from "react";
 
-const categories = ["All", "Programming", "Design", "AI", "Tools"];
+const categories = ["All", "Programming","Web", "Design", "AI", "Tools"];
 
 const allSkills = [
-  { name: "React", icon: "⚛️", category: "Programming" },
-  { name: "Python", icon: "🐍", category: "Programming" },
-  { name: "JavaScript", icon: "🟨", category: "Programming" },
-  { name: "HTML", icon: "📄", category: "Programming" },
-  { name: "CSS", icon: "🎨", category: "Programming" },
-  { name: "Bootstrap", icon: "🥾", category: "Programming" },
-  { name: "Django", icon: "🐎", category: "Programming" },
-  { name: "TailwindCSS", icon: "🌬️", category: "Design" },
-  { name: "Figma", icon: "🎛️", category: "Design" },
-  { name: "TensorFlow", icon: "🧠", category: "AI" },
-  { name: "NumPy", icon: "🔢", category: "AI" },
-  { name: "Pandas", icon: "🐼", category: "AI" },
-  { name: "Scikit-learn", icon: "⚙️", category: "AI" },
-  { name: "Keras", icon: "🧠", category: "AI" },
-  { name: "NLTK", icon: "🔤", category: "AI" },
-  { name: "BeautifulSoup", icon: "🍲", category: "AI" },
-  { name: "Git", icon: "🌿", category: "Tools" },
-  { name: "GitHub", icon: "🐙", category: "Tools" },
+  { name: "Python", icon: "/icons/python.svg", category: "Programming" },
+  { name: "C++", icon: "/icons/c++.svg", category: "Programming" },
+  { name: "Java", icon: "/icons/java.svg", category: "Programming" },
+
+  { name: "HTML", icon: "/icons/html.svg", category: "Web" },
+  { name: "CSS", icon: "/icons/css.svg", category: "Web" },
+  { name: "TailwindCSS", icon: "/icons/tailwind.svg", category: "Web" },
+  { name: "Bootstrap", icon: "/icons/bootstrap.svg", category: "Web" },
+  { name: "JavaScript", icon: "/icons/js.svg", category: "Web" },
+  { name: "React", icon: "/icons/react.svg", category: "Web" },
+  { name: "Django", icon: "/icons/django.svg", category: "Web" },
+
+  { name: "Figma", icon: "/icons/figma.svg", category: "Design" },
+
+  { name: "NumPy", icon: "/icons/numpy.svg", category: "AI" },
+  { name: "Pandas", icon: "/icons/pandas.svg", category: "AI" },
+  { name: "Scikit-learn", icon: "/icons/scikit-learn.svg", category: "AI" },
+  { name: "TensorFlow", icon: "/icons/tensorflow.svg", category: "AI" },
+  { name: "Keras", icon: "/icons/Keras.svg", category: "AI" },
+
+  // Placeholder SVGs for NLTK and BeautifulSoup
+  {
+    name: "NLTK",
+    icon: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64'><circle cx='32' cy='32' r='30' fill='%231f77b4'/><text x='32' y='40' font-size='18' text-anchor='middle' fill='white' font-family='Arial'>NLTK</text></svg>",
+    category: "AI"
+  },
+  {
+    name: "BeautifulSoup",
+    icon: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64'><circle cx='32' cy='32' r='30' fill='%23FF9900'/><text x='32' y='40' font-size='12' text-anchor='middle' fill='white' font-family='Arial'>BS</text></svg>",
+    category: "AI"
+  },
+
+  { name: "Git", icon: "/icons/git.svg", category: "Tools" },
+  { name: "GitHub", icon: "/icons/github.svg", category: "Tools" },
 ];
+
+
 
 export default function Skills() {
   const [filter, setFilter] = useState("All");
@@ -72,7 +89,9 @@ export default function Skills() {
               whileHover={{ scale: 1.08, boxShadow: "0 0 20px rgba(240,165,0,0.6)" }}
               className="p-6 rounded-2xl bg-black/40 flex flex-col items-center justify-center gap-3 text-center"
             >
-              <div className="text-yellow-400 text-4xl">{s.icon}</div>
+              <div className="text-yellow-400 text-4xl">
+                <img src={s.icon} alt={s.name} className="w-12 h-12" />
+              </div>
               <p className="font-medium">{s.name}</p>
             </motion.div>
           ))}
