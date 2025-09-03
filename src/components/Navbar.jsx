@@ -4,45 +4,41 @@ import { useState } from "react";
 const links = [
   { to: "home", label: "Home" },
   { to: "about", label: "About" },
-  { to: "skills", label: "Skills" },
   { to: "projects", label: "Projects" },
-  { to: "certifications", label: "Certfications" },
   { to: "contact", label: "Contact" },
 ];
 
 function scrollToId(id) {
   const el = document.getElementById(id);
   if (el) {
-    const top = el.offsetTop - 80; // account for fixed navbar
+    const top = el.offsetTop - 80;
     window.scrollTo({ top, behavior: "smooth" });
   }
 }
 
 export default function Navbar({ active }) {
-  const [isOpen, setIsOpen] = useState(false); // for mobile menu toggle
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <motion.nav
-      initial={{ y: -80, opacity: 0 }}
+      initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6 }}
-      className="fixed top-0 left-0 right-0 z-50 bg-black/30 backdrop-blur-md shadow-lg"
+      transition={{ type: "spring", stiffness: 80, damping: 12 }}
+      className="fixed top-0 left-0 right-0 z-50 bg-indigo-900/40 backdrop-blur-md shadow-lg"
     >
       <div className="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
-        {/* Logo */}
         <a
           href="#home"
           onClick={(e) => {
             e.preventDefault();
             scrollToId("home");
-            setIsOpen(false); // close mobile menu on click
+            setIsOpen(false);
           }}
-          className="font-extrabold tracking-wide hover:scale-105 transition-transform"
+          className="font-extrabold tracking-wide text-emerald-400 hover:scale-105 transition-transform"
         >
-          Talha
+          Portfolio
         </a>
 
-        {/* Desktop Links */}
         <div className="hidden sm:flex items-center gap-6">
           {links.map((l) => (
             <a
@@ -52,46 +48,37 @@ export default function Navbar({ active }) {
                 e.preventDefault();
                 scrollToId(l.to);
               }}
-              className={`cursor-pointer relative group transition-colors hover:scale-105 ${
-                active === l.to ? "text-mustard" : "hover:text-yellow-300"
+              className={`cursor-pointer relative group transition-all ${
+                active === l.to ? "text-emerald-400" : "text-white"
               }`}
             >
-              <span className="relative z-10">{l.label}</span>
+              <span className="relative z-10 group-hover:text-emerald-400 transition-colors duration-300">
+                {l.label}
+              </span>
               <span
-                className={`absolute -bottom-1 left-0 h-0.5 bg-mustard transition-all ${
-                  active === l.to ? "w-full" : "w-0 group-hover:w-full"
+                className={`absolute -bottom-1 left-0 h-0.5 transition-all duration-300 group-hover:w-full group-hover:shadow-[0_0_8px_2px_rgba(16,185,129,0.7)] ${
+                  active === l.to
+                    ? "w-full bg-emerald-400 shadow-[0_0_8px_2px_rgba(16,185,129,0.7)]"
+                    : "w-0 bg-emerald-400"
                 }`}
               ></span>
             </a>
           ))}
         </div>
 
-        {/* Hamburger Button (mobile only) */}
+        {/* Mobile menu button */}
         <button
           className="sm:hidden flex flex-col gap-1.5"
           onClick={() => setIsOpen(!isOpen)}
         >
-          <span
-            className={`block h-0.5 w-6 bg-yellow-400 transition-transform ${
-              isOpen ? "rotate-45 translate-y-1.5" : ""
-            }`}
-          ></span>
-          <span
-            className={`block h-0.5 w-6 bg-yellow-400 transition-opacity ${
-              isOpen ? "opacity-0" : "opacity-100"
-            }`}
-          ></span>
-          <span
-            className={`block h-0.5 w-6 bg-yellow-400 transition-transform ${
-              isOpen ? "-rotate-45 -translate-y-1.5" : ""
-            }`}
-          ></span>
+          <span className="block h-0.5 w-6 bg-emerald-400"></span>
+          <span className="block h-0.5 w-6 bg-emerald-400"></span>
+          <span className="block h-0.5 w-6 bg-emerald-400"></span>
         </button>
       </div>
 
-      {/* Mobile Menu */}
       {isOpen && (
-        <div className="sm:hidden bg-black/50 backdrop-blur-md">
+        <div className="sm:hidden bg-indigo-950/80 backdrop-blur-md">
           {links.map((l) => (
             <a
               key={l.to}
@@ -99,11 +86,9 @@ export default function Navbar({ active }) {
               onClick={(e) => {
                 e.preventDefault();
                 scrollToId(l.to);
-                setIsOpen(false); // close menu after click
+                setIsOpen(false);
               }}
-              className={`block px-4 py-3 text-white hover:bg-yellow-400 hover:text-black transition-colors ${
-                active === l.to ? "bg-yellow-400 text-black" : ""
-              }`}
+              className="block px-4 py-3 text-white hover:bg-emerald-400 hover:text-black transition-colors"
             >
               {l.label}
             </a>

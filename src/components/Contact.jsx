@@ -1,148 +1,130 @@
-
-import { motion, AnimatePresence } from "framer-motion";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { motion } from "framer-motion";
 import { useState } from "react";
 
-const mustard = "#F0A500";
-
-const schema = z.object({
-  name: z.string().min(2, { message: "Please enter your full name (min 2 chars)." }),
-  email: z.string().email({ message: "Please enter a valid email." }),
-  message: z.string().min(10, { message: "Message should be at least 10 characters." }),
-});
-
 export default function Contact() {
-  const [toast, setToast] = useState(null);
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [errors, setErrors] = useState({});
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors, isValid, isSubmitting },
-  } = useForm({ resolver: zodResolver(schema), mode: "onChange" });
+  const validate = () => {
+    let newErrors = {};
 
-  const onSubmit = async (data) => {
-    try {
-      const resp = await fetch("https://formspree.io/f/mrblnyew", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      if (resp.ok) {
-        setToast({ type: "success", msg: "Thanks! Your message was sent ✅" });
-        reset();
-      } else {
-        setToast({ type: "error", msg: "Oops! Something went wrong. Try again." });
-      }
-    } catch (e) {
-      setToast({ type: "error", msg: "Network error. Please try later." });
+    if (!form.name.trim()) {
+      newErrors.name = "Name is required.";
+    } else if (form.name.length < 3) {
+      newErrors.name = "Name must be at least 3 characters.";
     }
-    setTimeout(() => setToast(null), 5000);
+
+    if (!form.email.trim()) {
+      newErrors.email = "Email is required.";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      newErrors.email = "Enter a valid email address.";
+    }
+
+    if (!form.message.trim()) {
+      newErrors.message = "Message is required.";
+    } else if (form.message.length < 10) {
+      newErrors.message = "Message must be at least 10 characters.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validate()) {
+      alert("✅ Form submitted successfully (demo only).");
+      setForm({ name: "", email: "", message: "" });
+      setErrors({});
+    }
   };
 
   return (
-    <section id="contact" className="px-5 py-12">
-      <motion.div
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: false, margin: "-80px" }}
-        className="max-w-5xl mx-auto"
-      >
+    <section
+      id="contact"
+      className="py-20 px-6 bg-slate-950 text-white relative"
+    >
+      <div className="absolute inset-0 bg-gradient-to-tr from-emerald-500/10 to-violet-600/10 blur-3xl" />
+      <div className="max-w-3xl mx-auto relative z-10">
         <motion.h2
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0, transition: { duration: 0.6 } }}
-          className="text-center text-3xl font-extrabold text-yellow-400 border-b-2 border-yellow-400 pb-2"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="text-4xl font-extrabold text-center mb-12 bg-gradient-to-r from-emerald-400 to-violet-500 bg-clip-text text-transparent"
         >
-          Contact Me
+          Contact
         </motion.h2>
 
-        <div className="mt-8 grid md:grid-cols-2 gap-6">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0, transition: { duration: 0.6 } }}
-            className="rounded-2xl p-5 text-black cursor-pointer transition-transform hover:scale-105"
-            style={{ background: mustard }}
-          >
-            <p className="font-semibold">Email</p>
-            <p className="text-sm">talhagulsher7782@gmail.com</p>
-            <a
-              href="https://mail.google.com/mail/?view=cm&fs=1&to=talhagulsher7782@gmail.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-3 inline-block text-sm text-purple-900 underline"
-            >
-              Send me a message
-            </a>
-
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0, transition: { duration: 0.6 } }}
-            className="rounded-2xl p-5 text-black cursor-pointer transition-transform hover:scale-105"
-            style={{ background: mustard }}
-          >
-            <p className="font-semibold">WhatsApp</p>
-            <p className="text-sm">+92 319 789 5802</p>
-            <a href="https://wa.me/923197895802" className="mt-3 inline-block text-sm text-purple-900 underline">
-              Send me a message
-            </a>
-          </motion.div>
-        </div>
-
         <motion.form
-          onSubmit={handleSubmit(onSubmit)}
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0, transition: { duration: 0.6 } }}
-          className="mt-8 space-y-4"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="bg-slate-900/70 backdrop-blur-md p-8 rounded-2xl shadow-lg"
+          onSubmit={handleSubmit}
         >
-          <input
-            {...register("name")}
-            type="text"
-            placeholder="Your Full Name"
-            className="w-full p-3 rounded-xl bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2"
-          />
-          {errors.name && <p className="text-red-400 text-sm">{errors.name.message}</p>}
+          <div className="mb-6">
+            <label className="block mb-2 font-semibold">Name</label>
+            <input
+              type="text"
+              name="name"
+              value={form.name}
+              onChange={handleChange}
+              placeholder="Your Name"
+              className={`w-full px-4 py-3 rounded-lg bg-slate-800 text-white border ${
+                errors.name ? "border-red-500" : "border-slate-700"
+              } focus:border-emerald-400 outline-none`}
+            />
+            {errors.name && (
+              <p className="text-red-400 text-sm mt-1">{errors.name}</p>
+            )}
+          </div>
 
-          <input
-            {...register("email")}
-            type="email"
-            placeholder="Email"
-            className="w-full p-3 rounded-xl bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2"
-          />
-          {errors.email && <p className="text-red-400 text-sm">{errors.email.message}</p>}
+          <div className="mb-6">
+            <label className="block mb-2 font-semibold">Email</label>
+            <input
+              type="email"
+              name="email"
+              value={form.email}
+              onChange={handleChange}
+              placeholder="your@email.com"
+              className={`w-full px-4 py-3 rounded-lg bg-slate-800 text-white border ${
+                errors.email ? "border-red-500" : "border-slate-700"
+              } focus:border-emerald-400 outline-none`}
+            />
+            {errors.email && (
+              <p className="text-red-400 text-sm mt-1">{errors.email}</p>
+            )}
+          </div>
 
-          <textarea
-            {...register("message")}
-            placeholder="Your Message"
-            rows={5}
-            className="w-full p-3 rounded-xl bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2"
-          ></textarea>
-          {errors.message && <p className="text-red-400 text-sm">{errors.message.message}</p>}
+          <div className="mb-6">
+            <label className="block mb-2 font-semibold">Message</label>
+            <textarea
+              name="message"
+              value={form.message}
+              onChange={handleChange}
+              placeholder="Write your message..."
+              rows="5"
+              className={`w-full px-4 py-3 rounded-lg bg-slate-800 text-white border ${
+                errors.message ? "border-red-500" : "border-slate-700"
+              } focus:border-emerald-400 outline-none`}
+            ></textarea>
+            {errors.message && (
+              <p className="text-red-400 text-sm mt-1">{errors.message}</p>
+            )}
+          </div>
 
           <button
-            disabled={!isValid || isSubmitting}
-            className="w-full px-6 py-3 rounded-full font-semibold text-black disabled:opacity-60 disabled:cursor-not-allowed shadow-lg transition-transform hover:scale-105 bg-mustard"
+            type="submit"
+            className="w-full py-3 rounded-lg font-bold bg-gradient-to-r from-emerald-500 to-violet-600 hover:opacity-90 transition"
           >
-            {isSubmitting ? "Sending..." : "Send Message"}
+            Send Message
           </button>
         </motion.form>
-      </motion.div>
-
-      <AnimatePresence>
-        {toast && (
-          <motion.div
-            initial={{ opacity: 0, y: 50, scale: 0.8 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            transition={{ duration: 0.3 }}
-            className={`fixed bottom-8 left-1/2 -translate-x-1/2 px-6 py-3 ${toast.type === "success" ? "bg-green-500" : "bg-red-500"} text-white rounded-full shadow-lg font-semibold`}
-          >
-            {toast.msg}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      </div>
     </section>
   );
 }
